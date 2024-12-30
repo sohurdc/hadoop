@@ -959,7 +959,7 @@ public class ZKRMStateStore extends RMStateStore {
 
     switch (operation) {
     case UPDATE:
-      if (appStateData.length <= zknodeLimit) {
+      if (attemptStateData.length <= zknodeLimit) {
         if (exists(path)) {
           zkManager.safeSetData(path, attemptStateData, -1, zkAcl,
                   fencingNodePath);
@@ -973,37 +973,37 @@ public class ZKRMStateStore extends RMStateStore {
       } else {
         if (LOG.isDebugEnabled()) {
           LOG.debug("Application state data size for " + appId + " is "
-                  + appStateData.length);
+                  + attemptStateData.length);
         }
         LOG.error("Application " + appId.toString()
                 + " exceeds the maximum allowed size for application data. "
-                + "The length is " + appStateData.length
+                + "The length is " + attemptStateData.length
                 + ", The node update path is " + nodeUpdatePath
                 + ". Current yarn.resourcemanager.zk-max-znode-size.bytes is " + zknodeLimit);
         throw new StoreLimitException("Application " + appId.toString()
                 + " exceeds the maximum allowed size for application data. "
-                + "The length is " + appStateData.length
+                + "The length is " + attemptStateData.length
                 + ", The node update path is " + nodeUpdatePath
                 + ". Current yarn.resourcemanager.zk-max-znode-size.bytes is " + zknodeLimit);
       }
       break;
     case STORE:
-      if (appStateData.length <= zknodeLimit) {
+      if (attemptStateData.length <= zknodeLimit) {
         zkManager.safeCreate(path, attemptStateData, zkAcl, CreateMode.PERSISTENT,
                 zkAcl, fencingNodePath);
       } else {
         if (LOG.isDebugEnabled()) {
           LOG.debug("Application state data size for " + appId + " is "
-                  + appStateData.length);
+                  + attemptStateData.length);
         }
         LOG.error("Application " + appId.toString()
                 + " exceeds the maximum allowed size for application data. "
-                + "The length is " + appStateData.length
+                + "The length is " + attemptStateData.length
                 + ", The node update path is " + nodeUpdatePath
                 + ". Current yarn.resourcemanager.zk-max-znode-size.bytes is " + zknodeLimit);
         throw new StoreLimitException("Application " + appId.toString()
                 + " exceeds the maximum allowed size for application data. "
-                + "The length is " + appStateData.length
+                + "The length is " + attemptStateData.length
                 + ", The node update path is " + nodeUpdatePath
                 + ". Current yarn.resourcemanager.zk-max-znode-size.bytes is " + zknodeLimit);
       }
