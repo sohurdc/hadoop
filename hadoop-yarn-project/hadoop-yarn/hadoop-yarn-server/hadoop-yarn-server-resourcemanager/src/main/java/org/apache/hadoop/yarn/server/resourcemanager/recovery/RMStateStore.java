@@ -247,7 +247,7 @@ public abstract class RMStateStore extends AbstractService {
         LOG.error("Error storing app: " + appId, e);
         if (e instanceof StoreLimitException) {
           store.notifyApplication(
-              new RMAppEvent(appId, RMAppEventType.APP_SAVE_FAILED,
+              new RMAppEvent(appId, RMAppEventType.APP_REJECTED,
                   e.getMessage()));
         } else {
           isFenced = store.notifyStoreOperationFailedInternal(e);
@@ -294,7 +294,12 @@ public abstract class RMStateStore extends AbstractService {
       } catch (Exception e) {
         String msg = "Error updating app: " + appId;
         LOG.error(msg, e);
-        isFenced = store.notifyStoreOperationFailedInternal(e);
+        if (e instanceof StoreLimitException) {
+          store.notifyApplication(new RMAppEvent(appId,
+                  RMAppEventType.APP_REJECTED));
+        } else {
+          isFenced = store.notifyStoreOperationFailedInternal(e);
+        }
         if (result != null) {
           result.setException(new YarnException(msg, e));
         }
@@ -385,7 +390,13 @@ public abstract class RMStateStore extends AbstractService {
                RMAppAttemptEventType.ATTEMPT_NEW_SAVED));
       } catch (Exception e) {
         LOG.error("Error storing appAttempt: " + attemptState.getAttemptId(), e);
-        isFenced = store.notifyStoreOperationFailedInternal(e);
+        if (e instanceof StoreLimitException) {
+          store.notifyApplicationAttempt(new RMAppAttemptEvent
+                  (attemptState.getAttemptId(),
+                          RMAppAttemptEventType.ATTEMPT_UPDATE_SAVED));
+        } else {
+          isFenced = store.notifyStoreOperationFailedInternal(e);
+        }
       }
       return finalState(isFenced);
     };
@@ -415,7 +426,13 @@ public abstract class RMStateStore extends AbstractService {
                RMAppAttemptEventType.ATTEMPT_UPDATE_SAVED));
       } catch (Exception e) {
         LOG.error("Error updating appAttempt: " + attemptState.getAttemptId(), e);
-        isFenced = store.notifyStoreOperationFailedInternal(e);
+        if (e instanceof StoreLimitException) {
+          store.notifyApplicationAttempt(new RMAppAttemptEvent
+                  (attemptState.getAttemptId(),
+                          RMAppAttemptEventType.ATTEMPT_UPDATE_SAVED));
+        } else {
+          isFenced = store.notifyStoreOperationFailedInternal(e);
+        }
       }
       return finalState(isFenced);
     };
