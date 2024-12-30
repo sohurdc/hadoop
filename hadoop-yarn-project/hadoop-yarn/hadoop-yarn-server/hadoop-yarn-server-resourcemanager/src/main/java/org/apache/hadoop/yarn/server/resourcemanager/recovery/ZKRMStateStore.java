@@ -857,9 +857,11 @@ public class ZKRMStateStore extends RMStateStore {
       LOG.debug("Application state data size for {} is {}",
           appId, appStateData.length);
 
-      throw new StoreLimitException("Application " + appId
-          + " exceeds the maximum allowed size for application data. "
-          + "See yarn.resourcemanager.zk-max-znode-size.bytes.");
+      throw new StoreLimitException("Application " + appId.toString()
+              + " exceeds the maximum allowed size for application data. "
+              + "The length is " + appStateData.length
+              + ", The node update path is " + nodeCreatePath
+              + ". Current yarn.resourcemanager.zk-max-znode-size.bytes is " + zknodeLimit);
     }
     opDurations.addStoreApplicationStateCallDuration(clock.getTime() - start);
   }
