@@ -978,12 +978,12 @@ public class ZKRMStateStore extends RMStateStore {
         LOG.error("Application " + appId.toString()
                 + " exceeds the maximum allowed size for application data. "
                 + "The length is " + attemptStateData.length
-                + ", The node update path is " + nodeUpdatePath
+                + ", The node update path is " + path
                 + ". Current yarn.resourcemanager.zk-max-znode-size.bytes is " + zknodeLimit);
         throw new StoreLimitException("Application " + appId.toString()
                 + " exceeds the maximum allowed size for application data. "
                 + "The length is " + attemptStateData.length
-                + ", The node update path is " + nodeUpdatePath
+                + ", The node update path is " + path
                 + ". Current yarn.resourcemanager.zk-max-znode-size.bytes is " + zknodeLimit);
       }
       break;
@@ -999,12 +999,12 @@ public class ZKRMStateStore extends RMStateStore {
         LOG.error("Application " + appId.toString()
                 + " exceeds the maximum allowed size for application data. "
                 + "The length is " + attemptStateData.length
-                + ", The node update path is " + nodeUpdatePath
+                + ", The node update path is " + path
                 + ". Current yarn.resourcemanager.zk-max-znode-size.bytes is " + zknodeLimit);
         throw new StoreLimitException("Application " + appId.toString()
                 + " exceeds the maximum allowed size for application data. "
                 + "The length is " + attemptStateData.length
-                + ", The node update path is " + nodeUpdatePath
+                + ", The node update path is " + path
                 + ". Current yarn.resourcemanager.zk-max-znode-size.bytes is " + zknodeLimit);
       }
       break;
